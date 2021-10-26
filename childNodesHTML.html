@@ -1,11 +1,26 @@
-
-<div id="1">
-  <h1 id="2">Hello, <em id="3">World</em></h1>
-  <p id="4">
-    Welcome to wonderland. This is an
-    <span id="5">awesome</span> place.
-  </p>
-  <a href="#" id="6"><strong id="7">Enter</strong></a>
-  <div id="8"><p id="9"><a href="#" id="10">Go back</a></p></div>
-</div>
-<script src="childNodes.js"></script>
+<!doctype html>
+<html>
+  <head>
+    <title>Newsletter Signup</title>
+  </head>
+  <body>
+    <!-- A short comment -->
+    <h1>Newsletter Signup</h1>
+    <p class="intro">
+      To receive our weekly emails, enter your email address below.
+      <a id="simple" href="info.html">Get more info</a>
+    </p>
+    <div class="form">
+      <form>
+        <label>
+          Enter your email:
+          <input name="email" placeholder="user.name@domain.test" />
+        </label>
+        <p class="controls">
+          <button id="cancelButton">Cancel</button>
+          <button type="submit" id="submitButton">Subscribe</button>
+        </p>
+      </form>
+    </div>
+  </body>
+</html>
