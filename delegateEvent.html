@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Event Delegation Function</title>
+    <style>
+
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1>Header</h1>
+        <p>Content</p>
+      </section>
+      <aside>
+        <h2>Sub Side Notes</h2>
+        <p>Note 1</p>
+        <p>Note 2</p>
+      </aside>
+    </main>
+    <nav>
+      <p>Side Note</p>
+    </nav>
+    <script>
+        const element1 = document.querySelector('table');
+        const element2 = document.querySelector('main h1');
+        const element3 = document.querySelector('main');
+
+        const callback = ({target, currentTarget}) => {
+            alert(`Target: ${target.tagName}\nCurrent Target: ${currentTarget.tagName}`);
+
+        };
+
+        function delegateEvent(elem,selector,eventType,callback) {
+            let result = [];
+
+            const hasChildElement = (element) => {
+                let kidElements = [...elem.getElementsByTagName("*")]
+
+                for (let el of kidElements) {
+                    if (el.tagName.toLowerCase() == selector) {
+                        result.push(el)
+                    }
+                }
+
+                return result.length > 0 ? true : false;
+            }
+
+            if (!hasChildElement(elem)) {
+                return undefined;
+            }
+
+            return addedEvent(result,eventType,callback);
+        }
+
+        function addedEvent(result, eventType, callback) {
+            // document.addEventListener(eventType,callback)
+            // get all selector elements in the elem
+            for (let node of result) {
+
+                node.addEventListener(eventType,callback);
+            }
+            //add the eventtype event listener to all
+
+            return true;
+        }
+        console.log(//delegateEvent(element3, 'h1', 'click', callback),//'Target: H1\nCurrent Target: MAIN'
+        // delegateEvent(element3, 'aside p', 'click', callback),//'Target: P\nCurrent Target: MAIN'
+            // delegateEvent(element2, 'h1', 'click', callback),//TRUE add click event listener to element 2
+            delegateEvent(element2, 'p', 'click', callback),//
+        );
+
+        /*
+        function delegateEvent(parentElement, selector, eventType, callback) {
+            if (parentElement && parentElement instanceof Element) {
+                return !parentElement.addEventListener(eventType, event => {
+                const validTargets = Array.prototype.slice.call(parentElement.querySelectorAll(selector));
+                if (validTargets.includes(event.target)) {
+                    callback(event);
+      }
+    });
+  }
+}
+
+        */
+    </script>
+  </body>
+</html>
