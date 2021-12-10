@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Event Propagation</title>
+
+<style>
+#container { border: 1px solid red }
+#c1 { background-color: pink; }
+</style>
+
+<script>
+  //   document.querySelector('html').addEventListener('click', () => {
+  //   document.querySelector('#container').style = 'display: none';
+  // });
+
+  // document.querySelector('#container').addEventListener('click', event => {
+    // event.style = "display: visible";
+  // });
+
+  document.querySelector('html').addEventListener('click', (event) => {
+  const container = document.querySelector('#container');
+
+  if (!container.contains(event.target)) {
+    container.style = 'display: none';
+  }
+});
+</script>
+</head>
+
+<body id="c1">
+
+    <div id="container">
+      Hello
+      Hasd
+      as
+      dgta
+      sdf
+    </div>
+</body>
+</html>
