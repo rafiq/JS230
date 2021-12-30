@@ -15,35 +15,29 @@ function callback1() {
     let len =  2 * args.length;
     let randomNums = []
 
-    for (let i = 0; i < args.length; i++) {
-        let randomNum = Math.floor(Math.random() * len + 1);
-        randomNums.push(randomNum);
+    while (randomNums.length < args.length)   {
+        let randomNum = Math.floor(Math.random() * len );
+        if (randomNums.includes(randomNum)) continue
+        else randomNums.push(randomNum);
     }
 
     let j = 1
+    let k = -1
     let t = setInterval(() => {
-
-        let temp = randomNums.pop();
-
         if (randomNums.includes(j)) {
-            console.log(randomNums[randomNums.indexOf(j)]);
-
+            k++;
+            arguments[k]();
+        } else {
+            console.log(j)
         }
-        while (randomNums) {
-            if (j === temp) {
-                temp = randomNums.pop();
-            } else {
-                console.log(j)
-            }
-            j++
-        }
+        j++
     }, (1000));
 
         setTimeout(() => {
             clearInterval(t)
         },(len + 1) * 1000);
 
-    return len;
+    return randomNums;
   }
   console.log(
 
