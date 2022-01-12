@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .x {
+        position: absolute;
+        transform: rotate(45deg);
+        top: 20px;
+        left: 20px;
+        }
+
+        .x .horizontal {
+        width: 45px;
+        height: 5px;
+        position: absolute;
+        left: -20px;
+        background: red;
+        }
+
+        .x .vertical {
+        height: 45px;
+        width: 5px;
+        background: red;
+        position: absolute;
+        left: 0px;
+        top: -20px;
+        }
+        .composer {
+        background: #f5f5f5;
+        padding:  1em;
+        width:  30em;
+        }
+
+        .composer textarea {
+        width: 100%;
+        height: 4em;
+        }
+
+        .composer textarea.invalid {
+        color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="x">
+        <div class="horizontal"></div>
+        <div class="vertical"></div>
+    </div>
+    <br>
+    <div class="composer">
+        <textarea placeholder="Enter your message" id="text"></textarea>
+        <p class="counter"></p>
+        <button type="submit">Post Message</button>
+        <p class="message"></p>
+      </div>
+    <script>
+        let box = document.getElementsByClassName("x")[0];
+        let rightArm = document.getElementsByClassName("horizontal")[0];
+        let leftArm = document.getElementsByClassName("vertical")[0];
+        let messageBox = document.getElementsByClassName("message")[0];
+        let text = document.getElementsByTagName("textarea");
+        let textWords = document.getElementById("text");
+        let counter = document.getElementsByClassName("counter")[0];
+        let button = document.querySelector("button");
+        let maxChars = 120;
+        let count = text.textContent;
+        // document.addEventListener("mouseout", e => {
+        //     box.style.top = "20px";
+        //     box.style.left = "20px";
+        //     messageBox.textContent = "0,0"
+        //     leftArm.style.background = "red"
+        // })
+
+        document.addEventListener("click", e => {
+            box.style.top = String(e.clientY) + "px"
+            box.style.left = String(e.clientX) + "px";
+
+            messageBox.textContent = e.clientX + " " + e.clientY;
+        })
+
+
+        document.addEventListener("keypress", e => {
+            let color = e.key === "g" ? "green" : e.key === "b" ? "blue" : e.key === "r" ? "red" : "pink"
+
+            if ((120 - text[0].value.length + 1) < 0) {
+                textWords.style.color = "red";
+                counter.textContent = 0 + " characters remaining"
+                button.disabled = true;
+            } else {
+                textWords.style.color = "black";
+                counter.textContent = 120 - text[0].value.length + 1 + " characters remaining"
+                button.disabled = false;
+            }
+            leftArm.style.background = color
+            rightArm.style.background = color;
+        })
+        console.log("hello");
+    </script>
+</body>
+</html>
