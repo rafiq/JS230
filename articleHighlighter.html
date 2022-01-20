@@ -1,6 +1,10 @@
 <style>
     .highlight {
     border: 1px dotted black;
+    background: #0F0;
+      border: 1px solid #F00;
+      color: #F00;
+      padding: 12px
     }
     .inactive {
       background: white;
@@ -9,12 +13,12 @@
       /* padding: 12px */
     }
 
-    .active {
+    /* .active {
       background: #0F0;
       border: 1px solid #F00;
       color: #F00;
       padding: 12px
-    }
+    } */
     header li {
     display: inline-block;
     }
@@ -22,12 +26,12 @@
     header ul {
     padding: 0;
     }
-    article:target {
+    /* article:target {
       background: #0F0;
       border: 1px solid #F00;
       color: #F00;
       padding: 12px
-    }
+    } */
 </style>
 <header>
     <h1>Nav</h1>
@@ -73,67 +77,84 @@
   Phasellus elit enim, fermentum et finibus ut, commodo non lorem. Aliquam bibendum sapien at arcu semper, eget ultrices elit lacinia. In sed nulla quis massa sagittis cursus eu tempor odio. Nulla at imperdiet ex. Maecenas hendrerit ornare dui, nec porta dolor aliquam quis. Curabitur sollicitudin enim vel vulputate suscipit. Quisque vitae lobortis velit. Maecenas a dui pretium, suscipit elit non, gravida odio. Etiam feugiat a turpis vitae sagittis. Etiam ac nulla id metus semper aliquam eget vitae justo. Vivamus sed odio ornare, commodo tortor eget, pretium metus. Sed a aliquam ligula. Nullam a quam dui. Cras hendrerit viverra nisi, et faucibus orci elementum at.</p>
     </article>
     <script>
-        let main = document.querySelector("main")
-        let art1 = document.getElementById("article-1");
-        let art2 = document.getElementById("article-2");
-        let art3 = document.getElementById("article-3");
-        let art4 = document.getElementById("article-4");
-        let links = document.querySelectorAll("a");
+      // This is my answer below
+        // let main = document.querySelector("main")
+        // let art1 = document.getElementById("article-1");
+        // let art2 = document.getElementById("article-2");
+        // let art3 = document.getElementById("article-3");
+        // let art4 = document.getElementById("article-4");
+        // let links = document.querySelectorAll("a");
 
-        function makeHighlight(e) {
 
-          document.querySelectorAll(".active").forEach(e => {
-            e.className = "inactive"
-          });
-          e.target.className = "active";
 
-          e.preventDefault();
+        // function makeHighlight(e) {
+        //   e.preventDefault();
 
-          console.log("HELLLO");
-          console.log();
+        //   document.querySelectorAll(".active").forEach(node => {
+        //     // e.className = "inactive"
+        //     node.classList.remove("active");
+        //     node.classList.remove("highlight");
+        //   });
+
+        //   e.target.classList.add("active")
+        //   e.target.classList.add("highlight")
+
+        //   console.log("HELLLO");
+        // }
+        // document.addEventListener("DOMContentLoaded", () => {
+        //   document.body.querySelectorAll("*").forEach(node => {
+        //     node.classList.remove("active");
+        //     node.classList.remove("highlight")
+        //     node.classList.add("inactive")
+        //     node.classList.remove("artical:target")
+        //   })
+        //   main.addEventListener("click",makeHighlight);
+        // })
+
+
+// !This is the LS answer
+
+        function highlight({target}) {
+          let element;
+          let id;
+
+          console.log(highlighted);
+          removeHighlight();
+
+          if (target.tagName === 'A') {
+            id = target.href.match('#article-[0-9]+')[0]
+            element = document.querySelector(id);
+          } else {
+            element = document.querySelector('main');
+          }
+
+          element.classList.add('highlight');
         }
 
-            main.addEventListener("click",makeHighlight);
-            /*
-            function highlight({target}) {
-  let element;
-  let id;
+        function removeHighlight() {
+          const highlighted = document.querySelector('.highlight');
+          if (highlighted) {
+            highlighted.classList.remove('highlight');
+          }
+        }
 
-  removeHighlight();
+        const highlighted = document.querySelector('.highlight');
+        const nav = document.querySelector('header ul');
+        const main = document.querySelector('main');
 
-  if (target.tagName === 'A') {
-    id = target.href.match('#article-[0-9]+')[0]
-    element = document.querySelector(id);
-  } else {
-    element = document.querySelector('main');
-  }
+        nav.addEventListener('click', highlight);
+        document.addEventListener('click', highlight);
+        main.addEventListener("click", e => {
+          e.preventDefault();
+          let article = e.target;
+          if (article.tagName !== 'ARTICLE') { article = article.parentNode; }
 
-  element.classList.add('highlight');
-}
+          if (article.tagName === "ARTICLE") {
+            e.stopPropagation();
+            removeHighlight();
+            article.classList.add("highlight");
+          }
+        });
 
-function removeHighlight() {
-  const highlighted = document.querySelector('.highlight');
-  if (highlighted) {
-    highlighted.classList.remove('highlight');
-  }
-}
-
-const nav = document.querySelector('header ul');
-const main = document.querySelector('main');
-
-nav.addEventListener('click', highlight);
-document.addEventListener('click', highlight);
-main.addEventListener("click", e => {
-  e.preventDefault();
-  let article = e.target;
-  if (article.tagName !== 'ARTICLE') { article = article.parentNode; }
-
-  if (article.tagName === "ARTICLE") {
-    e.stopPropagation();
-    removeHighlight();
-    article.classList.add("highlight");
-  }
-});
-            */
     </script>
   </main>
