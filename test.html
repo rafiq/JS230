@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>capturing test</title>
+</head>
+<body>
+  <form action="#">
+    <textarea name="text" id="text" cols="30" rows="10" value="write something"></textarea>
+    <button type="submit" id="my-button-id">submit</button>
+  </form>
+    <script>
+        const myButton = document.getElementById('my-button-id');
+        const someObject = {aProperty: 'Data'};
+
+        myButton.addEventListener('click', function() {
+          console.log(someObject.aProperty);  // Expected Value: 'Data'
+
+          someObject.aProperty = 'Data Again';  // Change the value
+        });
+
+        window.setInterval(function() {
+          if (someObject.aProperty === 'Data Again') {
+            console.log('Data Again: True');
+            someObject.aProperty = 'Data';  // Reset value to wait for next event execution
+            console.log(someObject.aProperty);
+          }
+        }, 5000);
+    </script>
+</body>
+</html>
