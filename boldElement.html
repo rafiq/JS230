@@ -38,7 +38,14 @@
 
             element.dispatchEvent(event);
         }
-
+        document.querySelector("#btn").addEventListener("click", e => {
+          e.preventDefault();
+          if (sectionElement.style.fontWeight === "bold") {
+            sectionElement.style.fontWeight = "";
+          } else {
+            makeBold(sectionElement)
+          }
+        })
         sectionElement.addEventListener('bolded', (event) => {
             alert(event.target.tagName);
             event.target.classList.add('highlight');
