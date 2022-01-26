@@ -27,104 +27,168 @@
         <button id="clear">Clear</button>
       </form>
       <script>
-          let classificationElement = document.getElementById("selection-filters");
-            let animalElement = document.getElementById("animals");
-            let vertebrateArr = ["Bear","Turtle","Whale","Salmon","Ostrich"];
-            let warmBloodArr = ["Bear","Whale","Ostrich"];
-            let coldBloodArr = ["Turtle","Salmon"];
-            let mammalArr = ["Bear","Whale"];
-            let birdArr = ["Ostrich"];
-            let hash = {
-                Vertebrate:vertebrateArr,
-                "Warm-blooded":warmBloodArr,
-                "Cold-blooded":coldBloodArr,
-                Mammal:mammalArr,
-                Bird:birdArr
+        // THis is the LS answer
+          //         const linkedOptions = {
+          //   classifications: {
+          //     Vertebrate: ['Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich'],
+          //     'Warm-blooded': ['Bear', 'Whale', 'Ostrich'],
+          //     'Cold-blooded': ['Salmon', 'Turtle'],
+          //     Mammal: ['Bear', 'Whale'],
+          //     Bird: ['Ostrich'],
+          //     Classifications: ['Animals', 'Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich'],
+          //   },
+          //   animals: {
+          //     Bear: ['Vertebrate', 'Warm-blooded', 'Mammal'],
+          //     Turtle: ['Vertebrate', 'Cold-blooded'],
+          //     Whale: ['Vertebrate', 'Warm-blooded', 'Mammal'],
+          //     Salmon: ['Vertebrate', 'Cold-blooded'],
+          //     Ostrich: ['Vertebrate', 'Warm-blooded', 'Bird'],
+          //     Animals: ['Classifications', 'Vertebrate', 'Warm-blooded', 'Cold-blooded', 'Mammal', 'Bird'],
+          //   },
+          // };
+
+          // const animalClassifications = document.querySelector('#animal-classifications');
+          // const animals = document.querySelector('#animals');
+          // const clearFiltersBtn = document.querySelector('#clear');
+          // let animalClassificationsValue;
+          // let animalsValue;
+
+          // function setOptions({options}, filters) {
+          //   options.length = 0;
+          //   filters.forEach((value, index) => {
+          //     options[index] = new Option(value)
+          //   });
+          // }
+          // function setDefault(event) {
+          //   event.preventDefault();
+          //   setOptions(animalClassifications, ['Classifications', 'Vertebrate', 'Warm-blooded', 'Cold-blooded', 'Mammal', 'Bird']);
+          //   setOptions(animals,  ['Animals', 'Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich']);
+          // }
+
+          // animalClassifications.addEventListener('change', event => {
+          //   console.log(animalClassifications.selectedIndex,animals.options);
+          //   animalClassificationsValue = animalClassifications.options[animalClassifications.selectedIndex].value
+          //   setOptions(animals, linkedOptions['classifications'][animalClassificationsValue])
+          // });
+
+          // // animals.addEventListener('change', event => {
+          // //   animalsValue = animals.options[animals.selectedIndex].value
+          // //   setOptions(animalClassifications, linkedOptions['animals'][animalsValue])
+          // // });
+
+          // clearFiltersBtn.addEventListener('click', setDefault);
+
+// My Answer below is not working
+          // let classificationElement = document.getElementById("selection-filters");
+          //   let animalElement = document.getElementById("animals");
+          //   let vertebrateArr = ["Bear","Turtle","Whale","Salmon","Ostrich"];
+          //   let warmBloodArr = ["Bear","Whale","Ostrich"];
+          //   let coldBloodArr = ["Turtle","Salmon"];
+          //   let mammalArr = ["Bear","Whale"];
+          //   let birdArr = ["Ostrich"];
+          //   let hash = {
+          //       Vertebrate:vertebrateArr,
+          //       "Warm-blooded":warmBloodArr,
+          //       "Cold-blooded":coldBloodArr,
+          //       Mammal:mammalArr,
+          //       Bird:birdArr
+          //   }
+          //   function getType(e) {
+          //       e.preventDefault();
+          //       let choice = document.getElementById("selection-filters").value
+          //       let items;
+
+          //       console.log(animalElement)
+          //       console.log("YES");
+          //       switch (choice) {
+          //           case "Vertebrate":
+          //               items = vertebrateArr;
+          //               break;
+          //           case "Warm-blooded":
+          //               items = warmBloodArr;
+          //               break;
+          //           case "Cold-blooded":
+          //               items = coldBloodArr;
+          //               break;
+          //           case "Mammal":
+          //               items = mammalArr;
+          //               break;
+          //           default:
+          //               items = birdArr;
+          //               break;
+          //       }
+          //       let str = "";
+          //       for (let item of items) {
+          //           str += "<option>" + item + "</option>"
+          //       }
+          //       document.getElementById("animals").innerHTML = str;
+          //   }
+          //   document.getElementById("selection-filters").onselectionchange = getType();
+
+// Here is a solution from Sean Richardson that I liked because on every selection change, it deletes everything and then repopulates according to the new current selection
+        let classifSelect = document.getElementById('animal-classifications');
+        let animalsSelect = document.getElementById('animals');
+        let classifOptions = classifSelect.querySelectorAll('option');
+        let animalsOptions = animalsSelect.querySelectorAll('option');
+
+        let classifFilter = {
+        'Classifications': ['Animals', 'Bear', 'Turtle',
+                            'Whale', 'Salmon', 'Ostrich'],
+        'Vertebrate': ['Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich'],
+        'Warm-blooded': ['Bear', 'Whale', 'Ostrich'],
+        'Cold-blooded': ['Salmon', 'Turtle'],
+        'Mammal': ['Bear', 'Whale'],
+        'Bird': ['Ostrich'],
+        }
+
+        let animalsFilter = {
+          'Animals': ['Classifications', 'Vertebrate', 'Warm-blooded',
+                      'Cold-blooded', 'Mammal', 'Bird'],
+          'Bear': ['Vertebrate', 'Warm-blooded', 'Mammal'],
+          'Turtle': ['Vertebrate', 'Cold-blooded'],
+          'Whale': ['Vertebrate', 'Warm-blooded', 'Mammal'],
+          'Salmon': ['Vertebrate', 'Cold-blooded'],
+          'Ostrich': ['Vertebrate', 'Warm-blooded', 'Bird'],
+        }
+
+        function emptyDropDown(selectNode) {
+          let childNodes = [...selectNode.childNodes];
+          childNodes.forEach(node => {
+            selectNode.removeChild(node);
+          });
+        }
+
+        function appendOptions(select, optionsArr, filterArr) {
+          console.log(filterArr);
+          optionsArr.forEach((node) => {
+            if (filterArr.includes(node.value)) {
+              select.appendChild(node);
             }
-            function getType(e) {
-                e.preventDefault();
-                let choice = document.getElementById("selection-filters").value
-                let items;
+          });
+        }
 
-                console.log(animalElement)
-                console.log("YES");
-                switch (choice) {
-                    case "Vertebrate":
-                        items = vertebrateArr;
-                        break;
-                    case "Warm-blooded":
-                        items = warmBloodArr;
-                        break;
-                    case "Cold-blooded":
-                        items = coldBloodArr;
-                        break;
-                    case "Mammal":
-                        items = mammalArr;
-                        break;
-                    default:
-                        items = birdArr;
-                        break;
-                }
-                let str = "";
-                for (let item of items) {
-                    str += "<option>" + item + "</option>"
-                }
-                document.getElementById("animals").innerHTML = str;
-            }
-            document.getElementById("selection-filters").onselectionchange = getType();
-        //   classificationElement.addEventListener('')
+        document.addEventListener('DOMContentLoaded', () => {
+          let clear = document.getElementById('clear');
 
-        /*
-        const linkedOptions = {
-  classifications: {
-    Vertebrate: ['Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich'],
-    'Warm-blooded': ['Bear', 'Whale', 'Ostrich'],
-    'Cold-blooded': ['Salmon', 'Turtle'],
-    Mammal: ['Bear', 'Whale'],
-    Bird: ['Ostrich'],
-    Classifications: ['Animals', 'Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich'],
-  },
-  animals: {
-    Bear: ['Vertebrate', 'Warm-blooded', 'Mammal'],
-    Turtle: ['Vertebrate', 'Cold-blooded'],
-    Whale: ['Vertebrate', 'Warm-blooded', 'Mammal'],
-    Salmon: ['Vertebrate', 'Cold-blooded'],
-    Ostrich: ['Vertebrate', 'Warm-blooded', 'Bird'],
-    Animals: ['Classifications', 'Vertebrate', 'Warm-blooded', 'Cold-blooded', 'Mammal', 'Bird'],
-  },
-};
+          classifSelect.addEventListener('change', (e) => {
+            let chosenOption = e.target.value;
+            emptyDropDown(animalsSelect);
+            appendOptions(animalsSelect, animalsOptions, classifFilter[chosenOption]);
+          });
 
-const animalClassifications = document.querySelector('#animal-classifications');
-const animals = document.querySelector('#animals');
-const clearFiltersBtn = document.querySelector('#clear');
-let animalClassificationsValue;
-let animalsValue;
+          animalsSelect.addEventListener('change', (e) => {
+            let chosenOption = e.target.value;
+            emptyDropDown(classifSelect);
+            appendOptions(classifSelect, classifOptions, animalsFilter[chosenOption]);
+          });
 
-function setOptions({options}, filters) {
-  options.length = 0;
-  filters.forEach((value, index) => {
-    options[index] = new Option(value)
-  });
-}
-
-function setDefault(event) {
-  event.preventDefault();
-  setOptions(animalClassifications, ['Classifications', 'Vertebrate', 'Warm-blooded', 'Cold-blooded', 'Mammal', 'Bird']);
-  setOptions(animals,  ['Animals', 'Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich']);
-}
-
-animalClassifications.addEventListener('change', event => {
-  animalClassificationsValue = animalClassifications.options[animalClassifications.selectedIndex].value
-  setOptions(animals, linkedOptions['classifications'][animalClassificationsValue])
-});
-
-animals.addEventListener('change', event => {
-  animalsValue = animals.options[animals.selectedIndex].value
-  setOptions(animalClassifications, linkedOptions['animals'][animalsValue])
-});
-
-clearFiltersBtn.addEventListener('click', setDefault);
-        */
+          clear.addEventListener('click', (e) => {
+            emptyDropDown(classifSelect);
+            emptyDropDown(animalsSelect);
+            appendOptions(classifSelect, classifOptions, animalsFilter['Animals']);
+            appendOptions(animalsSelect, animalsOptions, classifFilter['Classifications']);
+          });
+        });
       </script>
 </body>
 </html>
