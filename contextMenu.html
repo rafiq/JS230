@@ -34,15 +34,31 @@
         </section>
       </main>
       <script>
-          let subEl = document.getElementById("sub");
-          let mainEl = document.querySelector("main");
-            mainEl.addEventListener("click", e => {
-                alert(e.target.tagName);
-            })
-          subEl.addEventListener("click", e => {
-              e.stopPropagation();
-              alert("SubText");
-          })
+
+        //   ?I messed up on this because I didn't realize that contextmenu is the right click button and not the regular button. The answer below mine is the right answer.
+        //   let subEl = document.getElementById("sub");
+        //   let mainEl = document.querySelector("main");
+        //     mainEl.addEventListener("click", e => {
+        //         alert("Main Area");
+        //     })
+        //   subEl.addEventListener("click", e => {
+        //       e.stopPropagation();
+        //       alert("Sub Area");
+        //   })
+
+        const main = document.querySelector('main');
+        const sub = document.querySelector('#sub');
+
+        main.addEventListener('contextmenu', event => {
+        event.preventDefault();
+        alert('Main');
+        });
+
+        sub.addEventListener('contextmenu', event => {
+        event.preventDefault();
+        event.stopPropagation();
+        alert('Sub');
+        });
       </script>
 </body>
 </html>
