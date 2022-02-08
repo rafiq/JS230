@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting schedules</title>
+    <script src="addingStaff.js"></script>
+</head>
+<body>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // function getSchedules(url) {
+            //     let request = new XMLHttpRequest()
+            //     request.open("GET", url);
+            //     request.responseType = "json";
+
+            //     request.addEventListener("load", event => {
+            //         let data = request.response
+
+            //         let countOfSchedules = {};
+
+            //         data.forEach(schedule => {
+            //             let template = `staff ${schedule.staff_id}`
+
+            //             countOfSchedules[template] ? countOfSchedules[template]++ : countOfSchedules[template] = 1
+            //         })
+            //         let result = countOfSchedules ? countOfSchedules : "There were no results."
+
+            //         console.log(result)
+            //         return result
+            //         console.log(data);
+            //     })
+
+            //     request.send()
+
+            //     request.addEventListener("timeout", e => {
+            //         alert("It is taking longer than usual, please try again later.")
+            //     })
+
+            //     request.addEventListener("loadend", e => {
+            //         alert("The request has completed.");
+            //     })
+            // }
+
+            function getSchedules(url) {
+                let request = new XMLHttpRequest()
+                let newURL = `${url}/${i}`
+                request.open("GET", url)
+                request.responseType = "json";
+
+                request.addEventListener("load", event => {
+                    let data = request.response
+
+                    let countOfSchedules = {};
+
+                    for (let i = 1; i < 5; i++) {
+                        data.forEach(schedule => {
+                            let template = `staff ${schedule.staff_id}`
+
+                            countOfSchedules[template] ? countOfSchedules[template]++ : countOfSchedules[template] = 1
+                        })
+                        let result = countOfSchedules ? countOfSchedules : "There were no results."
+
+                        console.log(result)
+                        return result
+                        console.log(data);
+                    })
+
+                    request.send()
+                }
+
+            request.addEventListener("timeout", e => {
+                alert("It is taking longer than usual, please try again later.")
+            })
+
+            request.addEventListener("loadend", e => {
+                alert("The request has completed.");
+            })
+            }
+            // cons÷ole.log(
+            getSchedules("http://localhost:3000/api/schedules")
+            // );
+        }
+        // function getSchedules(url) {
+        //     let countOfSchedules = {}
+        //     let request = new XMLHttpRequest()
+
+        //     request.addEventListener("load", e => {
+        //         for (let i = 1; i < 5; i++) {
+        //             let newURL = `${url}/${i}`
+        //             request.open("GET", url)
+        //             request.responseType = "json";
+
+        //             let data = request.response;
+
+        //             data.forEach(schedule => {
+        //             let template = `staff ${schedule.staff_id}`
+
+        //             countOfSchedules[template] ? countOfSchedules[template]++ : countOfSchedules[template] = 1
+        //             })
+
+        //             console.log(countOfSchedules);
+        //             return countOfSchedules
+        //             request.send()
+        //         })
+        //     }
+
+        // }
+        // console.log(
+        //     getSchedules("http://localhost:3000/api/schedules")
+        //     );
+        // })
+    </script>
+</body>
+</html>
+
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
+
+  function allSchedules() {
+    let xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+    xhr.timeout = 5000;
+    xhr.open('GET', 'http://localhost:3000/api/schedules');
+    let scheduleCounts = {};
+
+    xhr.addEventListener('load', event => {
+      let data = xhr.response;
+      let staffIds = data.map(item => item.staff_id).filter(onlyUnique);
+
+      staffIds.forEach(id => {
+        let staffRequest = new XMLHttpRequest();
+        staffRequest.responseType = 'json';
+        staffRequest.open('GET', `http://localhost:3000/api/schedules/${id}`);
+        staffRequest.addEventListener('load', event => {
+          scheduleCounts['staff ' + id] = staffRequest.response.length;
+        });
+
+        staffRequest.addEventListener('loadend', event => {
+          if (Object.keys(scheduleCounts).length === staffIds.length) {
+            alert(Object.keys(scheduleCounts).map(id => {
+              return `${id}: ${scheduleCounts[id]}`;
+            }).join('\n'));
+          }
+        });
+
+        staffRequest.send();
+      });
+    });
+
+    xhr.addEventListener('timeout', event => {
+      alert('Timeout occurred. Please try again.');
+    });
+
+    xhr.addEventListener('loadend', event => {
+      alert('The request has completed.');
+    });
+
+    xhr.send();
+  }
+
+  function getStaffAvailability() {
+      let request = new XMLHttpRequest();
+      request.open('GET', 'http://localhost:3000/api/schedules');
+      request.responseType = 'json';
+      request.timeout = 5000;
+
+      request.onload = () => logAvailability(request.response);
+      request.ontimeout = () => alert(`Request Timeout`);
+      request.onloadend = () => alert(`Request has been completed`);
+      request.send();
+    }
+
+    function logAvailability(response) {
+      if (response.every(schedule => schedule.student_email)) {
+        alert('No bookings schedules are available');
+        return;
+      }
+
+      let staffIDs = response.filter(schedule => !schedule.student_email)
+                              .map(schedule => schedule.staff_id);
+
+      let msg = [...(new Set(staffIDs))].reduce((acc, id) => {
+          return acc +
+            `staff ${id}:  ` +
+             `${staffIDs.filter(num => num === id).length}\n`;
+      }, '');
+
+      alert(msg);
+    }A
