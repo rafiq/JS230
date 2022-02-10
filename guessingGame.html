@@ -1,12 +1,26 @@
-<main>
-  <h1>Number Guessing Game</h1>
-  <p>Loading...</p>
-  <form action="" method="get">
-    <fieldset>
-      <input type="text" id="guess" maxlength="3" />
-      <input type="submit" value="Guess" />
-    </fieldset>
-  </form>
-  <a href="#">New game</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="guessingGame.css">
+</head>
+<body>
+
+  <main>
+    <h1>Number Guessing Game</h1>
+    <p id="messageBox">Guess a number from 1 to 100</p>
+    <form action="" method="get">
+      <fieldset>
+        <input type="text" id="guess" maxlength="3" />
+        <input type="submit" value="Guess" id="submitBtn"/>
+      </fieldset>
+    </form>
+    <a href="#">New game</a>
+  </main>
+
   <script src="guessingGame.js"></script>
-</main>
+</body>
+</html>
