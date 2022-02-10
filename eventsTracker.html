@@ -91,62 +91,66 @@
         // divGreen.addEventListener('click', track(event => {
         // document.body.style.background = 'green';
         // }));
+
+
+        //  I really like the LS answer below because it is using the pseduoclassical style of object creation and the methods they use on the object are very effective for counting the events and tracking them. Plus, it is a private event where the user is not able to see the data.
         const divRed = document.querySelector('#red');
-const divBlue = document.querySelector('#blue');
-const divOrange = document.querySelector('#orange');
-const divGreen = document.querySelector('#green');
+        const divBlue = document.querySelector('#blue');
+        const divOrange = document.querySelector('#orange');
+        const divGreen = document.querySelector('#green');
 
-const tracker = (() => {
-  const events = [];
-  return {
-    list() {
-      return events.slice();
-    },
-    elements() {
-      return this.list().map(({target}) => target);
-    },
-    add(event) {
-      events.push(event);
-    },
-    clear() {
-      events.length = 0;
-      return events.length;
-    },
-  };
-})();
+        const tracker = (() => {
+          const events = [];
+          return {
+            list() {
+              return events.slice();
+            },
+            elements() {
+              return this.list().map(({target}) => target);
+            },
+            add(event) {
+              events.push(event);
+            },
+            clear() {
+              events.length = 0;
+              // events = [];//Why did they not make this a new array?
+              return events.length;
+            },
+          };
+        })();
 
-function track(callback) {
-  function isEventTracked(events, event) {
-    return events.includes(event);
-  }
+        function track(callback) {
+          function isEventTracked(events, event) {
+            return events.includes(event);
+          }
 
-  return event => {
-    if (!isEventTracked(tracker.list(), event)) {
-      tracker.add(event);
-    }
+          return event => {
+            if (!isEventTracked(tracker.list(), event)) {
+              tracker.add(event);
+            }
 
-    callback(event);
-  };
-}
+            callback(event);
+          };
+        }
 
-divRed.addEventListener('click', track(event => {
-  document.body.style.background = 'red';
-}));
+        divRed.addEventListener('click', track(event => {
+          document.body.style.background = 'red';
+        }));
 
-divBlue.addEventListener('click', track(event => {
-  event.stopPropagation();
-  document.body.style.background = 'blue';
-}));
+        divBlue.addEventListener('click', track(event => {
+          event.stopPropagation();
+          document.body.style.background = 'blue';
+        }));
 
-divOrange.addEventListener('click', track(event => {
-    event.stopPropagation();
-    document.body.style.background = 'orange';
-}));
+        divOrange.addEventListener('click', track(event => {
+            event.stopPropagation();
+            document.body.style.background = 'orange';
+        }));
 
-divGreen.addEventListener('click', track(event => {
-    event.stopPropagation();
-  document.body.style.background = 'green';
-}));
+        divGreen.addEventListener('click', track(event => {
+            event.stopPropagation();
+          document.body.style.background = 'green';
+        }));
 
         // console.log(tracker.list(),tracker.elements());
     </script>
