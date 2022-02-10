@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>loading practice</title>
+    <style>
+        #store {
+        border: solid 1px black;
+        padding: 0 1em;
+        float: left;
+        h1 {
+            font-size: 1.2em;
+        }
+
+        h2 {
+            font-size: 1em;
+        }
+        form {
+            button {
+            margin-bottom: 1em;
+            }
+        }
+        }
+    </style>
+</head>
+<body>
+    <h1>Existing Page</h1>
+
+    <div id="store"></div>
+    <script>
+        // const express = require("express")
+        // let app = express();
+
+
+        // app.get("GET", async (req,res) => {
+
+        //     try {
+        //         const products = await new Request('https://ls-230-web-store-demo.herokuapp.com/products')
+
+        //         if (!products) {
+        //             res.status(404)
+        //             return res.send()
+        //         }
+
+        //         res.send(products)
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // })
+
+        document.addEventListener('DOMContentLoaded', () => {
+        let store = document.getElementById('store');
+
+        let request = new XMLHttpRequest();
+        request.open('GET', 'https://ls-230-web-store-demo.herokuapp.com/products');
+
+        request.addEventListener('load', event => store.innerHTML = request.response);
+        request.send();
+
+        store.addEventListener('click', event => {
+            let target = event.target;
+            if (target.tagName !== 'A') {
+            return;
+            }
+
+            event.preventDefault();
+
+            let request = new XMLHttpRequest();
+            request.open('GET', 'https://ls-230-web-store-demo.herokuapp.com' + target.getAttribute('href'));
+
+            request.addEventListener('load', event => {
+                store.innerHTML = request.response;
+            } )
+
+            request.send();
+        });
+        store.addEventListener("submit", e => {
+            e.preventDefault();
+            let form = e.target;
+            let request = new XMLHttpRequest();
+            let data = new FormData(form);
+
+            request.open("POST", `https://ls-230-web-store-demo.herokuapp.com${form.getAttribute("action")}`);
+
+            request.addEventListener("load", () => {
+                if (request.status === 201) {
+                    console.log(`This product has been updated: ${request.response}`);
+                }
+
+                request.addEventListener('load', event => {
+                    store.innerHTML = request.response;
+                } )
+                if (Authentic){
+                    request.setRequestHeader("Authorization", "token AUTH_TOKEN")
+                    request.send(data);
+                } else {
+                    console.log(`Please make sure you are logged in.`);
+                }
+            })
+
+
+
+
+            })
+        });
+
+        let request = new XMLHttpRequest()
+        request.responseType = json;
+
+        request.open("GET", "https://api.github.com/repos/rails/rails")
+
+        request.addEventListener("load", e => {
+            let data = request.response;
+
+            if (!data) {
+                console.log(`The request could not be completed`);
+            } else {
+
+                if (request.status) console.log(request.status);
+                console.log(data.open_issues);
+                request.send(data)
+            }
+
+
+
+        })
+        let request =
+
+        // POST /books HTTP1.1
+        // Host: https://api.github.com
+        // Content-Type: "application/json; charset-utf-8"
+        Accept:*/*
+
+        {"title": "Elogquent JS", "authore":"Marjin Haverbeke"}
+        */*
+
+        request.send(data)
+    </script>
+</body>
+</html>
