@@ -31,59 +31,65 @@
             alert(`Target: ${target.tagName}\nCurrent Target: ${currentTarget.tagName}`);
 
         };
+// ! I must have taken the below answer from another student because it is too good to be mine. XD However, since it wasn't working, it might be mine.
+        // function delegateEvent(elem,selector,eventType,callback) {
+        //     let result = [];
 
-        function delegateEvent(elem,selector,eventType,callback) {
-            let result = [];
+        //     const hasChildElement = (element) => {
+        //         // let kidElements = [...elem.getElementsByTagName("*")]
+        //         let kidElements = elem.querySelectorAll("*")
+        //         console.log(kidElements);
 
-            const hasChildElement = (element) => {
-                let kidElements = [...elem.getElementsByTagName("*")]
+        //         for (let el of kidElements) { // This is not working when the selector has more than one element listed.
+        //           if (selector.split(" ").length > 1) {
+        //             selector = selector.split(" ")[1]
+        //           }
+        //           if (el.tagName.toLowerCase() == selector) {
+        //             result.push(el)
+        //           }
+        //         }
+        //         console.log(result);
+        //         return result.length > 0 ? true : false;
+        //     }
 
-                for (let el of kidElements) {
-                    if (el.tagName.toLowerCase() == selector) {
-                        result.push(el)
-                    }
-                }
+        //     if (!hasChildElement(elem)) {
+        //         return undefined;
+        //     }
 
-                return result.length > 0 ? true : false;
-            }
+        //     return addedEvent(result,eventType,callback);
+        // }
 
-            if (!hasChildElement(elem)) {
-                return undefined;
-            }
+        // function addedEvent(result, eventType, callback) {
+        //     // document.addEventListener(eventType,callback)
+        //     // get all selector elements in the elem
+        //     for (let node of result) {
 
-            return addedEvent(result,eventType,callback);
-        }
+        //         node.addEventListener(eventType,callback);
+        //     }
+        //     //add the eventtype event listener to all
 
-        function addedEvent(result, eventType, callback) {
-            // document.addEventListener(eventType,callback)
-            // get all selector elements in the elem
-            for (let node of result) {
-
-                node.addEventListener(eventType,callback);
-            }
-            //add the eventtype event listener to all
-
-            return true;
-        }
+        //     return true;
+        // }
         console.log(//delegateEvent(element3, 'h1', 'click', callback),//'Target: H1\nCurrent Target: MAIN'
-        // delegateEvent(element3, 'aside p', 'click', callback),//'Target: P\nCurrent Target: MAIN'
+        delegateEvent(element3, 'aside p', 'click', callback),//'Target: P\nCurrent Target: MAIN'
             // delegateEvent(element2, 'h1', 'click', callback),//TRUE add click event listener to element 2
-            delegateEvent(element2, 'p', 'click', callback),//
+            // delegateEvent(element3, 'h1', 'click', callback),//
         );
 
-        /*
+
+        // Below is the LS answer
+
         function delegateEvent(parentElement, selector, eventType, callback) {
             if (parentElement && parentElement instanceof Element) {
                 return !parentElement.addEventListener(eventType, event => {
-                const validTargets = Array.prototype.slice.call(parentElement.querySelectorAll(selector));
+                const validTargets = Array.prototype.slice.call(parentElement.querySelectorAll(selector));//I did do this one correctly in my answer, but I think querySelector can pick up on mutli word selectors.
+                console.log(validTargets);
                 if (validTargets.includes(event.target)) {
                     callback(event);
       }
     });
   }
 }
-
-        */
     </script>
   </body>
 </html>
