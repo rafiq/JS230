@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/handlebars.js"></script>
+  <script src="/javascripts/app.js"></script>
+  <link rel="stylesheet" href="/doc/css/style.css">
+</head>
+<body>
+  <header class="bs-header">
+    <div class="container">
+      <a href="#home"><h1>Contact Manager</h1></a>
+      <p>Using Backbone.js, Localstorage, RequireJS, Handlebar and Bootstrap</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div id="top_bar">
+      <input type="button" value="Add Contact" id="button">
+      <input type="search" name="search" id="search">
+    </div>
+    <div class="row">
+      <div class="col-xs-12 main-container">
+      </div>
+    </div>
+
+    <div class="footer text-center">
+      <p>Developed by <a href="http://www.devsaran.com">Devsaran.com</a> and <a href="http://www.239listing.com">239 Listing Real Estate</a>.</p>
+    </div>
+  </div>
+
+  <script id="ul-template" type="text/x-handlebars-template">
+    <ul class="media-list row contacts-container">
+      {{#each data}}
+      <li class="media col-md-3 col-sm-4">
+        <div class="media-heading">
+          <h3>{{name}}</h3>
+        </div>
+        <div class="media-body">
+          <dl>
+            <dt>Phone Number:</dt>
+            <dd>{{phone_number}} </dd>
+            <dt>Email:</dt>
+            <dd>{{email}}</dd>
+          </dl>
+        </div>
+        <div class="contact-btn-wrapper">
+          <a href="#contacts/edit/{{id}}" class="edit-contact btn btn-outline">
+            <span class="glyphicon glyphicon-pencil"></span> Edit
+          </a><a href="#contacts/delete/{{id}}" class="delete-contact btn btn-outline"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+        </div>
+        <hr>
+      </li>
+      {{/each}}
+    </ul>
+  </script>
+
+    <script id="form-template" type="text/x-handlebars-template">
+
+    <form method="post" action="/api/contacts" class="cover">
+      <table>
+        <tr>
+          <td class="tdLabel"><label for="register_name" class="label">Full name:</label></td>
+          <td><input type="text" name="name" value="" id="register_name" style="width:160px" required/></td>
+        </tr>
+          <tr>
+            <td class="tdLabel"><label for="add_number" class="label">Telephone number:</label></td>
+            <td><input type="phone_number" name="phone_number" id="add_number" style="width:160px" required/></td>
+            </tr>
+            <tr>
+              <td class="tdLabel"><label for="register_email" class="label">Enter Email:</label></td>
+              <td
+              ><input type="email" name="email" value="" id="register_email" style="width:160px" required/></td>
+              </tr>
+              <tr>
+                <td colspan="2"><div align="center"><input type="submit" id="add_contact" value="Submit"/>
+              </tr>
+              <tr>
+                <td colspan="2"><div align="center"><input type="submit" id="cancel_form" value="Cancel"/>
+              </tr>
+          </table>
+        </form>
+      </script>
+
+      <script  id="form2-template" type="text/x-handlebars-template">
+        <div class="login-form">
+          <div class="close-btn">X</div>
+          <div class="form">
+            <div class="form-element">
+              <h2>Sign In</h2>
+            </div>
+            <div class="form-element">
+              <input type="text" placeholder="Username">
+            </div>
+            <div class="form-element">
+              <input type="password" placeholder="Password">
+            </div>
+            <div class="form-element">
+              <button>Sign In</button>
+            </div>
+          </div>
+          <div class="open-login-btn">
+            Sign In
+          </div>
+        </div>
+      </script>
+
+</body>
+</html>
